@@ -1,0 +1,14 @@
+/main
+*.exe
+*.test
+
+/vendor/
+
+.idea/
+.vscode/
+
+.DS_Store
+
+*.log
+
+.env
