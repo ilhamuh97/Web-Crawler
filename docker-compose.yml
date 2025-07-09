@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     build: ./backend
@@ -10,6 +8,7 @@ services:
       - DB_PASS=password
       - DB_NAME=crawler
       - DB_HOST=db
+      - FRONTEND_URL=http://localhost:3000
     depends_on:
       - db
 
