@@ -21,13 +21,18 @@ func setupRouter(db *sql.DB) *gin.Engine {
 		c.JSON(200, gin.H{"message": "pong"})
 	})
 
-	router.GET("/api/apikey", apiKeyController.GetAPIKey)
-	router.POST("/api/apikey", apiKeyController.GenerateNewAPIKey)
+	router.GET("/api/api-key", apiKeyController.GetAPIKey)
+	router.POST("/api/api-key", apiKeyController.GenerateNewAPIKey)
 
 	protected := router.Group("/api")
 	protected.Use(middleware.AuthMiddleware(db))
 	{
-		protected.POST("/crawl", controllers.CrawlURL)
+		protected.POST("/crawl-tasks/:id/crawl", controllers.CrawlUrl(db))
+
+		protected.POST("/crawl-tasks", controllers.CreateCrawlTask(db))
+		protected.DELETE("/crawl-tasks/:id", controllers.DeleteCrawlTask(db))
+		protected.PATCH("/crawl-tasks/:id", controllers.UpdateCrawlTaskStatus(db))
+		protected.GET("/crawl-tasks", controllers.GetCrawlTasks(db))
 	}
 
 	return router

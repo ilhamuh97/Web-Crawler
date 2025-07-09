@@ -1,6 +1,7 @@
-CREATE TABLE crawl_results (
+CREATE TABLE crawl_tasks (
   id INT AUTO_INCREMENT PRIMARY KEY,
   url VARCHAR(2048) NOT NULL,
+  status ENUM('pending', 'in_progress', 'success', 'failed') DEFAULT 'pending',
   html_version VARCHAR(50),
   page_title VARCHAR(512),
   h1_count INT,
@@ -15,6 +16,6 @@ CREATE TABLE crawl_results (
 
 CREATE TABLE api_keys (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  key_value VARCHAR(255) NOT NULL,
+  key_value VARCHAR(255) NOT NULL UNIQUE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
