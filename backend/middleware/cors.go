@@ -13,9 +13,16 @@ func SetupCORS() gin.HandlerFunc {
 		frontendURL = "http://localhost:3000"
 	}
 
-	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{frontendURL}
-	config.AllowCredentials = true
+	config := cors.Config{
+		AllowOrigins: []string{
+			frontendURL,
+			"http://localhost:5173",
+		},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}
 
 	return cors.New(config)
 }
