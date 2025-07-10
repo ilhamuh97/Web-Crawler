@@ -92,7 +92,6 @@ docker-compose down
 /
 ├── backend/       # Go backend source code
 ├── frontend/      # React frontend (Vite)
-├── db/            # Database initialization and data
 ├── docker-compose.yml
 └── README.md
 ```
