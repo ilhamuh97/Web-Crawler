@@ -1,33 +1,20 @@
-import React, { useState } from 'react';
-import { Button, Input, Typography, Card, Space, message, Row, Col } from 'antd';
+import React from 'react';
+import { Button, Input, Typography, Card, Space, Row, Col } from 'antd';
 import { CopyOutlined } from '@ant-design/icons';
-import { useApi } from '../../hooks/useApi';
+import { useApiKey } from '../../hooks/useApiKey';
 
 const { Title, Text, Paragraph } = Typography;
 
-const index: React.FC = () => {
-    const [apiKey, setApiKey] = useState(localStorage.getItem('api_key') || '');
-    const { getApiKey } = useApi();
-
-    const handleGenerate = async () => {
-        const key = await getApiKey();
-        setApiKey(key!);
-
-        message.success('API Key generated and saved!');
-    };
-
-    const handleCopy = () => {
-        navigator.clipboard.writeText(apiKey || '');
-        message.success('API Key copied to clipboard!');
-    };
+const ApiKeyPage: React.FC = () => {
+    const { apiKey, handleGenerate, handleCopy } = useApiKey();
 
     return (
-        <Row justify="center" >
+        <Row justify="center">
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                 <Card
                     styles={{ body: { padding: '16px' } }}
                     variant='borderless'
-                    title={<Title level={4}>API Keys</Title>}
+                    title={<Title level={4} style={{ margin: 0 }}>API Keys</Title>}
                 >
                     <Space direction="vertical" size="small" style={{ width: '100%' }}>
                         <Paragraph type="secondary">
@@ -66,4 +53,4 @@ const index: React.FC = () => {
     );
 };
 
-export default index;
+export default ApiKeyPage;

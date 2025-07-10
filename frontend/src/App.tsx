@@ -10,7 +10,8 @@ import {
 
 import URLManager from './pages/URLManager';
 import APIKeyPage from './pages/APIKey';
-import Dashboard from './pages/Dashboard'
+import Dashboard from './pages/Dashboard';
+import Details from './pages/Details';
 
 const { Header, Content, Sider } = Layout;
 const { useBreakpoint } = Grid;
@@ -18,6 +19,8 @@ const { useBreakpoint } = Grid;
 const App: React.FC = () => {
   const screens = useBreakpoint();
   const location = useLocation();
+
+  const siderWidth = 200;
 
   const menuItems = [
     {
@@ -42,9 +45,18 @@ const App: React.FC = () => {
   );
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: '100dvh' }}>
       {screens.md ? (
-        <Sider breakpoint="md" collapsedWidth="0">
+        <Sider
+          width={siderWidth}
+          style={{
+            height: '100dvh',
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            bottom: 0,
+          }}
+        >
           <div style={{ height: 64, margin: 16, color: 'white', fontWeight: 'bold', fontSize: 20 }}>
             WebCrawler
           </div>
@@ -71,7 +83,13 @@ const App: React.FC = () => {
           </Dropdown>
         </Header>
       )}
-      <Layout>
+
+      <Layout
+        style={{
+          marginLeft: screens.md ? siderWidth : 0,
+          minHeight: '100dvh',
+        }}
+      >
         {!screens.md && (
           <Header style={{ height: 0, padding: 0, background: 'transparent' }} />
         )}
@@ -81,15 +99,17 @@ const App: React.FC = () => {
             borderRadius: 8,
             maxWidth: '1440px',
             margin: 'auto',
-            padding: '16px 0',
+            padding: '24px',
             width: '100%',
+            height: '100dvh',
+            overflowY: 'auto',
             boxSizing: 'border-box',
           }}
         >
           <Routes>
             <Route path="/" element={<URLManager />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/details/:id" element={<URLManager />} />
+            <Route path="/details/:id" element={<Details />} />
             <Route path="/apikey" element={<APIKeyPage />} />
           </Routes>
         </Content>

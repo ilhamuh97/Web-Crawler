@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import type { ApiErrorResponse, ApiKeyResponse, CrawlTaskListResponse, CrawlTaskResponse } from '../models/Api';
 import type { CrawlTask } from '../models/CrawlTask';
+import type { BrokenLink } from '../models/BrokenLink';
 
 const API_BASE = 'http://localhost:8080/api';
 
@@ -131,6 +132,49 @@ export const useApi = () => {
         return res.json();
     }, [getApiKey]);
 
+    const getBrokenLinks = useCallback(
+        async (id: number): Promise<BrokenLink[]> => {
+            let apiKey = localStorage.getItem('api_key') || (await getApiKey());
+
+            const res = await fetch(`${API_BASE}/crawl_tasks/${id}/broken_links`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${apiKey}`,
+                },
+            });
+
+            if (!res.ok) {
+                const data: ApiErrorResponse | null = await res.json().catch(() => null);
+                throw new Error(data?.message || `Error: ${res.status}`);
+            }
+
+            return res.json();
+        },
+        [getApiKey]
+    );
+
+    const stopCrawlJob = useCallback(
+        async (id: number): Promise<{ message: string }> => {
+            let apiKey = localStorage.getItem('api_key') || (await getApiKey());
+
+            const res = await fetch(`${API_BASE}/crawl/${id}/stop`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${apiKey}`,
+                },
+            });
+
+            if (!res.ok) {
+                const data: ApiErrorResponse | null = await res.json().catch(() => null);
+                throw new Error(data?.message || `Error: ${res.status}`);
+            }
+
+            return res.json();
+        },
+        [getApiKey]
+    );
+
     return {
         getApiKey,
         crawlUrl,
@@ -138,5 +182,7 @@ export const useApi = () => {
         deleteCrawlJob,
         updateCrawlJobStatus,
         listCrawlJobs,
+        getBrokenLinks,
+        stopCrawlJob
     };
 };
