@@ -146,8 +146,6 @@ func CrawlUrl(db *sql.DB) gin.HandlerFunc {
 				cancel()
 			}()
 
-			log.Printf("Starting crawl for ID %d: %s", task.ID, task.URL)
-
 			crawler := colly.NewCollector(
 				colly.MaxDepth(1), // stay only on the base page
 			)
