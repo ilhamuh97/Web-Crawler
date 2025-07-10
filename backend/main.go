@@ -29,10 +29,13 @@ func setupRouter(db *sql.DB) *gin.Engine {
 	{
 		protected.POST("/crawl-tasks/:id/crawl", controllers.CrawlUrl(db))
 
+		protected.GET("/crawl_tasks/:id/broken_links", controllers.GetBrokenLinks(db))
+
 		protected.POST("/crawl-tasks", controllers.CreateCrawlTask(db))
 		protected.DELETE("/crawl-tasks/:id", controllers.DeleteCrawlTask(db))
 		protected.PATCH("/crawl-tasks/:id", controllers.UpdateCrawlTaskStatus(db))
 		protected.GET("/crawl-tasks", controllers.GetCrawlTasks(db))
+		protected.POST("/crawl/:id/stop", controllers.StopCrawl())
 	}
 
 	return router

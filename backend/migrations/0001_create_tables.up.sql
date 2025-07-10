@@ -19,3 +19,14 @@ CREATE TABLE api_keys (
   key_value VARCHAR(255) NOT NULL UNIQUE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE broken_links (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  crawl_task_id INT NOT NULL,
+  url VARCHAR(2048) NOT NULL,
+  status_code INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (crawl_task_id) REFERENCES crawl_tasks(id) ON DELETE CASCADE,
+  UNIQUE KEY unique_task_url (crawl_task_id, url(255))
+);
+
