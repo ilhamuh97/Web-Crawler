@@ -1,0 +1,1 @@
+export type UrlStatus = 'pending' | 'in_progress' | 'success' | 'failed';
