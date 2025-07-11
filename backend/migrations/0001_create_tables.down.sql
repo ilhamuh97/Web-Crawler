@@ -1,2 +1,3 @@
 DROP TABLE IF EXISTS api_keys;
 DROP TABLE IF EXISTS crawl_tasks;
+DROP TABLE IF EXISTS broken_links;
